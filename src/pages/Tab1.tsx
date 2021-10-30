@@ -31,6 +31,7 @@ const Tab1: React.FC = () => {
 	const [products, setProducts] = useState([]);
 
 	useEffect(() => {
+		getData();
 		const connect = new HubConnectionBuilder()
 			.withUrl(`${api}/product-hub`)
 			.withAutomaticReconnect()
@@ -41,10 +42,10 @@ const Tab1: React.FC = () => {
 
 	useEffect(() => {
 		if (connection) {
-			connection
-				.start()
-				.then(() => {
-					//show alert add product
+			(async () => {
+				try {
+					await connection.start();
+					console.log("SignalR Connected.");
 					connection.on(
 						"NewProduct",
 						async (product: {
@@ -68,14 +69,16 @@ const Tab1: React.FC = () => {
 							getData();
 						}
 					);
-				})
-				.catch(error => console.log(error));
+				} catch (err) {
+					console.log(err);
+				}
+			})();
 		}
 	}, [connection]);
 
-	useEffect(() => {
-		getData();
-	}, []);
+	// useEffect(() => {
+	// 	getData();
+	// }, []);
 
 	//method get data from api
 	const getData = async () => {
