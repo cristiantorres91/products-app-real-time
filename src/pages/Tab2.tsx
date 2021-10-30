@@ -3,6 +3,7 @@ import {
 	IonButton,
 	IonCol,
 	IonContent,
+	IonGrid,
 	IonHeader,
 	IonInput,
 	IonItem,
@@ -14,6 +15,7 @@ import {
 } from "@ionic/react";
 import { ChangeEvent, useState } from "react";
 import api from "../api-endpoint";
+import "./Tab2.css";
 
 type FormElement = ChangeEvent<HTMLInputElement>;
 
@@ -23,12 +25,18 @@ interface IProduct {
 	price: number;
 }
 
+const initialForm = {
+	name: "",
+	category: "",
+	price: 0,
+};
+
 const Tab2: React.FC = () => {
-	const [form, setForm] = useState<IProduct>({
-		name: "",
-		category: "",
-		price: 0,
-	});
+	const styles = {
+		height: "100%",
+	};
+
+	const [form, setForm] = useState<IProduct>(initialForm);
 
 	const handleChange = (e: FormElement) => {
 		setForm({
@@ -62,7 +70,7 @@ const Tab2: React.FC = () => {
 				);
 				const data = await response.json();
 				console.log(data);
-				setForm({ name: "", category: "", price: 0 });
+				setForm(initialForm);
 			} catch (error) {
 				console.log(error);
 			} finally {
@@ -84,63 +92,74 @@ const Tab2: React.FC = () => {
 						<IonTitle size="large">Tab 2</IonTitle>
 					</IonToolbar>
 				</IonHeader>
-				<IonRow class="ion-justify-content-center">
-					<IonCol
-						size="12"
-						size-xs="12"
-						size-sm="6"
-						size-md="6"
-						size-lg="6"
+				<IonGrid style={styles}>
+					<IonRow
+						className="ion-justify-content-center ion-align-items-center"
+						style={styles}
 					>
-						<form
-							onSubmit={e => {
-								e.preventDefault();
-								handleSubmit();
-							}}
+						<IonCol
+							size="12"
+							size-xs="12"
+							size-sm="6"
+							size-md="6"
+							size-lg="6"
 						>
-							<IonItem>
-								<IonLabel position="floating">
-									Name
-								</IonLabel>
-								<IonInput
-									name="name"
-									onIonChange={(e: any) => handleChange(e)}
-									value={form.name}
-								/>
-							</IonItem>
-							<IonItem>
-								<IonLabel position="floating">
-									Category
-								</IonLabel>
-								<IonInput
-									name="category"
-									onIonChange={(e: any) => handleChange(e)}
-									value={form.category}
-								/>
-							</IonItem>
-							<IonItem>
-								<IonLabel position="floating">
-									Price
-								</IonLabel>
-								<IonInput
-									type="number"
-									name="price"
-									onIonChange={(e: any) => handleChange(e)}
-									value={form.price}
-								></IonInput>
-							</IonItem>
-							<div className="ion-text-center ion-padding-top">
-								<IonButton
-									type="submit"
-									color="success"
-									shape="round"
-								>
-									Add
-								</IonButton>
-							</div>
-						</form>
-					</IonCol>
-				</IonRow>
+							<form
+								onSubmit={e => {
+									e.preventDefault();
+									handleSubmit();
+								}}
+							>
+								<IonItem>
+									<IonLabel position="floating">
+										Name
+									</IonLabel>
+									<IonInput
+										name="name"
+										onIonChange={(e: any) =>
+											handleChange(e)
+										}
+										value={form.name}
+									/>
+								</IonItem>
+								<IonItem>
+									<IonLabel position="floating">
+										Category
+									</IonLabel>
+									<IonInput
+										name="category"
+										onIonChange={(e: any) =>
+											handleChange(e)
+										}
+										value={form.category}
+									/>
+								</IonItem>
+								<IonItem>
+									<IonLabel position="floating">
+										Price
+									</IonLabel>
+									<IonInput
+										type="number"
+										name="price"
+										onIonChange={(e: any) =>
+											handleChange(e)
+										}
+										value={form.price}
+									></IonInput>
+								</IonItem>
+								<div className="ion-text-center ion-padding-top">
+									<IonButton
+										type="submit"
+										color="success"
+										shape="round"
+									>
+										Add
+									</IonButton>
+								</div>
+							</form>
+						</IonCol>
+					</IonRow>
+				</IonGrid>
 			</IonContent>
 		</IonPage>
 	);

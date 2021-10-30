@@ -2,6 +2,7 @@ import {
 	HubConnection,
 	HubConnectionBuilder,
 } from "@microsoft/signalr";
+import "./Tab1.css";
 
 import {
 	IonContent,
@@ -32,6 +33,7 @@ const Tab1: React.FC = () => {
 
 	useEffect(() => {
 		getData();
+		//* connection hub backend
 		const connect = new HubConnectionBuilder()
 			.withUrl(`${api}/product-hub`)
 			.withAutomaticReconnect()
@@ -41,6 +43,7 @@ const Tab1: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
+		//* show alert add product
 		if (connection) {
 			(async () => {
 				try {
@@ -75,10 +78,6 @@ const Tab1: React.FC = () => {
 			})();
 		}
 	}, [connection]);
-
-	// useEffect(() => {
-	// 	getData();
-	// }, []);
 
 	//method get data from api
 	const getData = async () => {
